@@ -1,5 +1,5 @@
 #!/usr/bin/env awk -f
-# $Id: com.awk,v 1.6 2016/03/19 13:19:11 gongcunjust Exp gongcunjust $
+# $Id: com.awk,v 1.7 2016/03/19 13:59:08 gongcunjust Exp gongcunjust $
 
 BEGIN { state = 1 }
 
@@ -19,7 +19,7 @@ BEGIN { state = 1 }
             case 3:
                 if (ch == "*") {
                     state = 4
-                    tag = 1
+                    undo = 1
                 }
                 else {
                     printf("%s", ch)
@@ -30,12 +30,14 @@ BEGIN { state = 1 }
                 if (ch == "/") {
                     state = 5
                 } else {
-                    if (tag) {
-                        printf("*"); tag = 0
+                    if (undo) {
+                        printf("*"); undo = 0
                     }
-                    printf("%s", ch)
-                    if (ch == "*") state = 4
-                    else state = 3
+                    if (ch == "*") { undo = 1; state = 4 }
+                    else {
+                        printf("%s", ch)
+                        state = 3
+                    }
                 }
                 break
             case 5:
