@@ -1,0 +1,2 @@
+awk -f bit.awk <in.txt | tr '\n$' ' ' |sed 's/ //g'
+001000011
