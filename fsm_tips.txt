@@ -1,2 +1,11 @@
-awk -f bit.awk <in.txt | tr '\n$' ' ' |sed 's/ //g'
+LC_ALL=C awk -f bit.awk <in.txt | tr '\n$' ' ' |sed 's/ //g'
 001000011
+
+echo "char * const * (*next) ()" | awk -f cdecl.awk -
+next is pointer to function returning pointer to read-only pointer to char 
+
+echo "char *(* c[10])(int **p)" | awk -f cdecl.awk -
+c is 0..10 of pointer to function returning pointer to char 
+
+echo "int **p" | awk -f cdecl.awk -
+p is pointer to pointer to int
