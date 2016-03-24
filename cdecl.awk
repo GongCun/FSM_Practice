@@ -1,4 +1,5 @@
 #!/usr/bin/env awk -f
+# $Id: cdecl.awk,v 1.5 2016/03/24 13:28:18 gongcunjust Exp gongcunjust $
 
 function classify_string() {
     if (this["string"] == "const") {
@@ -41,7 +42,7 @@ function gettoken(  str,ch) {
         ;
     if (this["string"] ~ /[0-9a-zA-Z]/) {
         while ((ch = substr(str,i++,1)) ~ /[0-9a-zA-Z]/)
-            this["string"] = sprintf("%s%s", this["string"], ch)
+            this["string"] = this["string"] ch
         i--
         this["type"] = classify_string()
         return
@@ -74,6 +75,7 @@ function initialize(  str) {
 function get_array( str) {
     nextstate = "get_params"
     while (this["string"] == "[") {
+        printf("array ")
         gettoken(str) # a number or ']'
         if (this["string"] ~ /^[0-9]+$/) {
             printf("0..%d ", this["string"])
